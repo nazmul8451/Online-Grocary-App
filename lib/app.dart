@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:online_grocery_app/presentation/screens/log_in_screen.dart';
 import 'package:online_grocery_app/presentation/screens/splash_screen.dart' show SplashScreen;
 class GroceryApp extends StatelessWidget {
   const GroceryApp({super.key});
@@ -11,7 +12,7 @@ class GroceryApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home:  SplashScreen(),
+      home:  LogInScreen(),
     );
   }
 }

@@ -8,8 +8,14 @@ class OnboardingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final height = MediaQuery.of(context).size.height;
-    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery
+        .of(context)
+        .size
+        .height;
+    final width = MediaQuery
+        .of(context)
+        .size
+        .width;
 
     double widht;
     if (width < 600) {
@@ -62,8 +68,13 @@ class OnboardingScreen extends StatelessWidget {
                     ),
                     SizedBox(height: 20),
                     GestureDetector(
-                      onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=>LogInScreen())),
-                        child: Custom_elavetedButton(widht: widht, buttonName: 'Get Started',)),
+                        onTap: () =>
+                            Navigator.push(context, MaterialPageRoute(builder: (
+                                context) => LogInScreen())),
+                        child: Custom_elavetedButton(
+                          widht: widht,
+                          buttonName: 'Get Started',
+                          buttonColor: Color(0xFF53B175),)),
                   ],
                 ),
               ),

@@ -5,15 +5,11 @@ class Background_shadow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Expanded(
-          child: Image.asset(
-            'assets/images/back_shadow.png',
-            fit: BoxFit.cover,
-          ),
-        ),
-      ],
+    return SizedBox.expand(
+      child: Image.asset(
+        'assets/images/back_shadow.png',
+        fit: BoxFit.cover,
+      ),
     );
   }
 }

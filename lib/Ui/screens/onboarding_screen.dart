@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:online_grocery_app/presentation/screens/log_in_screen.dart';
+import 'package:online_grocery_app/Ui/screens/log_in_screen.dart';
 
 import '../../core/widgets/custom_elevated_button.dart';
 
@@ -69,8 +69,10 @@ class OnboardingScreen extends StatelessWidget {
                     SizedBox(height: 20),
                     GestureDetector(
                         onTap: () =>
-                            Navigator.push(context, MaterialPageRoute(builder: (
-                                context) => LogInScreen())),
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(builder: (context) => LogInScreen()),
+                            ),
                         child: Custom_elavetedButton(
                           widht: widht,
                           buttonName: 'Get Started',

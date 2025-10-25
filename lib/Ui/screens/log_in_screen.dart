@@ -241,9 +241,12 @@ class _LogInScreenState extends State<LogInScreen> {
     );
 
     if(response.isSuccess){
+      setState(() {
+        isLogInProgress = false;
+      });
       showSnackBarMessage(context, "Login Success");
       Navigator.pushNamedAndRemoveUntil(context, BotomNavBar.name, (predicate)=>false);
-    }{
+    }else{
       setState(() {
         isLogInProgress = false;
       });

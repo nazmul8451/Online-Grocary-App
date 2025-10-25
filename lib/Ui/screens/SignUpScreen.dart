@@ -1,7 +1,9 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:online_grocery_app/Ui/controller/auth_controller.dart';
 import 'package:online_grocery_app/Ui/widgets/snackBar_message.dart';
+import 'package:online_grocery_app/data/model/user_model.dart';
 import 'package:online_grocery_app/data/services/post_request.dart';
 import 'package:online_grocery_app/data/services/urls.dart' show Urls;
 // ignore: depend_on_referenced_packages
@@ -239,28 +241,60 @@ class _SignupscreenState extends State<Signupscreen> {
     signUp();
   }
 }
-Future<void> signUp() async {
-
+  Future<void> signUp() async {
     setState(() => isLoading = true);
 
-    Map<String, String> requestBody = {
-      "name": nameController.text.trim(),
-      "email": emailController.text.trim(),
-      "password": passwordController.text.trim(),
-    };
+    try {
+      Map<String, String> requestBody = {
+        "name": nameController.text.trim(),
+        "email": emailController.text.trim(),
+        "password": passwordController.text.trim(),
+      };
 
-    NetworkResponse response = await NetworkCaller.postRequest(url: Urls.registrationUrl,body: requestBody);
-    if(response.isSuccess){
-      print('Account success');
-      setState(() => isLoading = false);
-      Navigator.push(context, MaterialPageRoute(builder: (context)=>LogInScreen()));
-      showSnackBarMessage(context, 'Sign up successfull, please log in!');
+      NetworkResponse response = await NetworkCaller.postRequest(
+        url: Urls.registrationUrl,
+        body: requestBody,
+      );
 
-    }else{
-      print('Account failed');
-      showSnackBarMessage(context, response.body.toString());
+      if (response.isSuccess) {
+        final data = response.body!['data'];
+
+
+        UserModel userModel = UserModel.fromJson(data['user'] ?? {});
+        String token = data['token'] ?? '';
+
+
+        await AuthController.saveUserData(userModel, token);
+
+        print(response.body);
+        print('account created successfully');
+
+
+        if (context.mounted) {
+          showSnackBarMessage(context, 'Sign up successful, please log in!');
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => LogInScreen()),
+          );
+        }
+      } else {
+        print('Account creation failed');
+        if (context.mounted) {
+          showSnackBarMessage(context, response.body.toString());
+        }
+      }
+    } catch (e) {
+      print('Exception during signup: $e');
+      if (context.mounted) {
+        showSnackBarMessage(context, 'Something went wrong. Please try again.');
+      }
+    } finally {
+      if (mounted) {
+        setState(() => isLoading = false);
+      }
     }
-}
+  }
+
 
 
 

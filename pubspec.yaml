@@ -39,6 +39,9 @@ dependencies:
   google_maps_flutter: ^2.13.1
   http: ^1.5.0
   email_validator: ^3.0.0
+  get_storage: ^2.1.1
+
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

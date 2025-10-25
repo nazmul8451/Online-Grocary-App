@@ -15,6 +15,9 @@ class GroceryApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
       home:  SplashScreen(),
+      routes: {
+        BotomNavBar.name: (context) => BotomNavBar(),
+      },
     );
   }
 }

@@ -7,7 +7,10 @@ import 'package:online_grocery_app/data/services/urls.dart';
 import '../../core/widgets/BottomNavBar.dart';
 import '../../core/widgets/background.dart';
 import '../../core/widgets/custom_elevated_button.dart';
-import 'SignUpScreen.dart';
+import '../../data/model/user_model.dart';
+import '../controller/auth_controller.dart';
+import 'forgot_password_screen.dart';
+import 'signUpScreen.dart';
 
 class LogInScreen extends StatefulWidget {
   const LogInScreen({super.key});
@@ -18,7 +21,7 @@ class LogInScreen extends StatefulWidget {
 
 class _LogInScreenState extends State<LogInScreen> {
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  TextEditingController emailController = TextEditingController();
+  TextEditingController userNamelController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   bool _obscureText = true;
   bool isLogInProgress = false;
@@ -36,7 +39,7 @@ class _LogInScreenState extends State<LogInScreen> {
             bool isWide = constraints.maxWidth > 400;
             return Stack(
               children: [
-                if (!isWide) Background_shadow(),
+                if (!isWide) const Background_shadow(),
                 Center(
                   child: Container(
                     width: isWide ? 400 : size.width,
@@ -96,9 +99,10 @@ class _LogInScreenState extends State<LogInScreen> {
                             child: Column(
                               children: [
                                 TextFormField(
-                                  controller: emailController,
+                                  textInputAction: TextInputAction.next,
+                                  controller: userNamelController,
                                   decoration: InputDecoration(
-                                    labelText: 'Email',
+                                    labelText: 'Username',
                                     labelStyle: TextStyle(
                                       fontSize: 18,
                                       color: Colors.grey[800],
@@ -108,15 +112,13 @@ class _LogInScreenState extends State<LogInScreen> {
                                         color: Colors.grey,
                                       ),
                                     ),
-                                  ),
-                                  validator: (String? value) {
-                                    String email = value ?? '';
-                                    if (EmailValidator.validate(email) ==
-                                        false) {
-                                      return 'Enter a valid email';
-                                    }
-                                    return null;
-                                  },
+                                  ),   validator: (String? value) {
+                                  if (value?.trim().isEmpty ?? true) {
+                                    return 'Enter your Last name';
+                                  }
+                                  return null;
+                                },
+
                                 ),
                                 SizedBox(height: 30),
                                 TextFormField(
@@ -160,9 +162,9 @@ class _LogInScreenState extends State<LogInScreen> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              Text(
-                                'Forgot Password?',
-                                style: TextStyle(fontWeight: FontWeight.w600),
+                              TextButton(
+                                onPressed: ()=>_onTapForgot(),
+                                child: Text('Forgot Password?',style: TextStyle(fontWeight: FontWeight.w600,color: Colors.black),),
                               ),
                             ],
                           ),
@@ -218,6 +220,9 @@ class _LogInScreenState extends State<LogInScreen> {
       ),
     );
   }
+  void _onTapForgot(){
+    Navigator.push(context,MaterialPageRoute(builder: (context)=> ForgotPasswordScreen()));
+  }
 
   void _onTapLogInButton() {
     if (_formKey.currentState!.validate()) {
@@ -232,7 +237,7 @@ class _LogInScreenState extends State<LogInScreen> {
     });
 
     Map<String, String> requestBody = {
-      "email": emailController.text.trim(),
+      "username": userNamelController.text.trim(),
       "password": passwordController.text.trim(),
     };
     NetworkResponse response = await NetworkCaller.postRequest(
@@ -244,6 +249,12 @@ class _LogInScreenState extends State<LogInScreen> {
       setState(() {
         isLogInProgress = false;
       });
+      print(response.body);
+      final userModel = UserModel.fromJson(response.body!);
+      await AuthController.saveUserData(
+        userModel,
+        userModel.data?.token ?? '',
+      );
       showSnackBarMessage(context, "Login Success");
       Navigator.pushNamedAndRemoveUntil(context, BotomNavBar.name, (predicate)=>false);
     }else{

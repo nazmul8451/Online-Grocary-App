@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:online_grocery_app/Ui/controller/auth_controller.dart';
+import 'package:online_grocery_app/Ui/screens/location_screen.dart';
 import 'package:online_grocery_app/Ui/screens/log_in_screen.dart';
 import 'package:online_grocery_app/Ui/screens/onboarding_screen.dart';
 
 import '../../core/widgets/BottomNavBar.dart';
+import 'home_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -21,27 +23,33 @@ class _SplashScreenState extends State<SplashScreen> {
 
 
   Future<void> moveToNextScreen() async {
-    Future.delayed(const Duration(seconds: 3), () async {
-      bool isLoggedIn = await AuthController.isUserLoggedIn();
-      bool isFirstTime = await AuthController.isFirstTimeUser();
+    await Future.delayed(const Duration(seconds: 3));
+    bool isFirstTime = await AuthController.isFirstTimeUser();
+    bool isLoggedIn = AuthController.isUserLoggedIn();
+    bool isNewRegistration = AuthController.isNewRegistration();
+    bool isLocationSet = await AuthController.isLocationSet();
 
-      if (isLoggedIn && isFirstTime) {
-        // New user, first launch -show onboarding
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => OnboardingScreen()),
-        );
-      } else if (isLoggedIn) {
-        // Already logged in → go to home
-        Navigator.pushReplacementNamed(context, BotomNavBar.name);
-      } else {
-        // Logged out user → show login screen directly
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => LogInScreen()),
-        );
-      }
-    });
+    if (isFirstTime) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const OnboardingScreen()),
+      );
+    } else if (!isLoggedIn) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const LogInScreen()),
+      );
+    } else if (isNewRegistration || !isLocationSet) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const LocationScreen()),
+      );
+    } else {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const HomeScreen()),
+      );
+    }
   }
 
 

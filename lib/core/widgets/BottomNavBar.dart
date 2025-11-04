@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:online_grocery_app/Ui/screens/home_screen.dart';
+import 'package:online_grocery_app/Ui/screens/profile_account_screen.dart';
 class BotomNavBar extends StatefulWidget {
   const BotomNavBar({super.key});
 
@@ -16,7 +17,7 @@ class _BotomNavBarState extends State<BotomNavBar> {
     Center(child: Text('Search Page')),
     Center(child: Text('Profile Page')),
     Center(child: Text('Explore')),
-    Center(child: Text('Account')),
+    ProfileAccountScreen(),
   ];
 
   @override

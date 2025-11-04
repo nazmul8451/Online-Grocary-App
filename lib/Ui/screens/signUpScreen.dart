@@ -1,15 +1,18 @@
+import 'dart:convert';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:http/http.dart';
 import 'package:online_grocery_app/Ui/controller/auth_controller.dart';
-import 'package:online_grocery_app/Ui/widgets/snackBar_message.dart';
 import 'package:online_grocery_app/data/model/user_model.dart';
-import 'package:online_grocery_app/data/services/post_request.dart';
 import 'package:online_grocery_app/data/services/urls.dart' show Urls;
+
 // ignore: depend_on_referenced_packages
 import '../../core/widgets/background.dart';
 import '../../core/widgets/custom_elevated_button.dart';
 import '../../data/services/networkCaller.dart';
+import 'location_screen.dart';
 import 'log_in_screen.dart';
 
 class Signupscreen extends StatefulWidget {
@@ -26,6 +29,8 @@ class _SignupscreenState extends State<Signupscreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController nameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  TextEditingController firstNameController = TextEditingController();
+  TextEditingController lastNameController = TextEditingController();
 
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -99,6 +104,39 @@ class _SignupscreenState extends State<Signupscreen> {
                           child: Column(
                             children: [
                               TextFormField(
+                                textInputAction: TextInputAction.next,
+                                controller: firstNameController,
+                                decoration: InputDecoration(
+                                  labelText: 'First name',
+                                  labelStyle: TextStyle(
+                                    fontSize: 18,
+                                    color: Colors.grey[800],
+                                  ),
+                                  border: UnderlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.grey),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: 20),
+
+                              TextFormField(
+                                textInputAction: TextInputAction.next,
+                                controller: lastNameController,
+                                decoration: InputDecoration(
+                                  labelText: 'Last name',
+                                  labelStyle: TextStyle(
+                                    fontSize: 18,
+                                    color: Colors.grey[800],
+                                  ),
+                                  border: UnderlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.grey),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: 20),
+
+                              TextFormField(
+                                textInputAction: TextInputAction.next,
                                 controller: nameController,
                                 decoration: InputDecoration(
                                   labelText: 'Username',
@@ -112,13 +150,14 @@ class _SignupscreenState extends State<Signupscreen> {
                                 ),
                                 validator: (String? value) {
                                   if (value?.trim().isEmpty ?? true) {
-                                    return 'Enter your Last name';
+                                    return 'Enter your username';
                                   }
                                   return null;
                                 },
                               ),
                               SizedBox(height: 20),
                               TextFormField(
+                                textInputAction: TextInputAction.next,
                                 controller: emailController,
                                 decoration: InputDecoration(
                                   labelText: 'Email',
@@ -141,6 +180,7 @@ class _SignupscreenState extends State<Signupscreen> {
 
                               SizedBox(height: 30),
                               TextFormField(
+                                textInputAction: TextInputAction.next,
                                 controller: passwordController,
                                 obscureText: _obscureText,
                                 decoration: InputDecoration(
@@ -185,7 +225,7 @@ class _SignupscreenState extends State<Signupscreen> {
                                 text: 'Terms of Service ',
                                 style: TextStyle(color: Color(0xFF53B175)),
                               ),
-                              TextSpan(text: 'and '),
+                              TextSpan(text: 'and'),
                               TextSpan(
                                 text: 'Privacy Policy',
                                 style: TextStyle(color: Color(0xFF53B175)),
@@ -197,7 +237,7 @@ class _SignupscreenState extends State<Signupscreen> {
                         Visibility(
                           visible: isLoading == false,
                           replacement: Center(
-                            child: CircularProgressIndicator(color: Colors.green,),
+                            child: CircularProgressIndicator(),
                           ),
                           child: GestureDetector(
                             onTap: _onTapSignUpButton,
@@ -212,7 +252,8 @@ class _SignupscreenState extends State<Signupscreen> {
                         Center(
                           child: RichText(
                             text: TextSpan(
-                              text: "Already have an account? ",style: TextStyle(color: Colors.black),
+                              text: "Already have an account? ",
+                              style: TextStyle(color: Colors.black),
                               children: [
                                 TextSpan(
                                   text: 'Log in',
@@ -236,67 +277,62 @@ class _SignupscreenState extends State<Signupscreen> {
     );
   }
 
-   void _onTapSignUpButton() {
-  if (_formKey.currentState!.validate()) {
-    signUp();
+  void _onTapSignUpButton() {
+    if (_formKey.currentState!.validate()) {
+      signUp();
+    }
   }
-}
-  Future<void> signUp() async {
-    setState(() => isLoading = true);
 
+  Future<void> signUp() async {
     try {
-      Map<String, String> requestBody = {
-        "name": nameController.text.trim(),
+      setState(() => isLoading = true);
+
+      Map<String, dynamic> requestBody = {
+        "username": nameController.text.trim(),
         "email": emailController.text.trim(),
         "password": passwordController.text.trim(),
       };
 
+      print("Request Body: $requestBody");
+      print("API URL: ${Urls.registrationUrl}");
+
       NetworkResponse response = await NetworkCaller.postRequest(
-        url: Urls.registrationUrl,
+        url: "https://api.zhndev.site/wp-json/base/api/auth/register",
         body: requestBody,
       );
 
+      print("Response status: ${response.statusCode}");
+      print("Response body: ${response.body}");
+
       if (response.isSuccess) {
-        final data = response.body!['data'];
+        final body = response.body!;
+        UserModel userModel = UserModel.fromJson(body);
+        String token = body['token'] ?? body['data']?['token'] ?? "";
 
-
-        UserModel userModel = UserModel.fromJson(data['user'] ?? {});
-        String token = data['token'] ?? '';
-
-
+        // Save user data + new registration flag true
         await AuthController.saveUserData(userModel, token);
 
-        print(response.body);
-        print('account created successfully');
-
-
-        if (context.mounted) {
-          showSnackBarMessage(context, 'Sign up successful, please log in!');
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => LogInScreen()),
-          );
-        }
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Sign up successful! Please log in.")),
+        );
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => LocationScreen()),
+        );
       } else {
-        print('Account creation failed');
-        if (context.mounted) {
-          showSnackBarMessage(context, response.body.toString());
-        }
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text("Sign up failed!")));
       }
     } catch (e) {
-      print('Exception during signup: $e');
-      if (context.mounted) {
-        showSnackBarMessage(context, 'Something went wrong. Please try again.');
-      }
+      print("Error: $e");
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text("Error: $e")));
     } finally {
-      if (mounted) {
-        setState(() => isLoading = false);
-      }
+      setState(() => isLoading = false);
     }
   }
-
-
-
 
   void _login() {
     Navigator.push(

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:online_grocery_app/Ui/screens/SignUpScreen.dart';
+import 'package:online_grocery_app/Ui/screens/signUpScreen.dart';
 import 'package:online_grocery_app/Ui/screens/splash_screen.dart' show SplashScreen;
 
 import 'core/widgets/BottomNavBar.dart';

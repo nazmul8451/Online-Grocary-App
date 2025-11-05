@@ -16,8 +16,7 @@ import 'firebase_options.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await GetStorage.init(); // initialization get Storage
-  // ২️⃣ AuthController থেকে user data লোড করো
+  await GetStorage.init(); // initializ get Storage
   await AuthController.getUserData();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(

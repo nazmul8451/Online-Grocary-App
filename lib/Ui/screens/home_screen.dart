@@ -3,7 +3,6 @@ import 'package:get_storage/get_storage.dart';
 import 'package:online_grocery_app/Ui/widgets/custom_carousel_slider.dart';
 import 'package:online_grocery_app/businessLogic/controller/product_controller.dart';
 import 'package:provider/provider.dart';
-
 import '../controller/auth_controller.dart';
 import '../widgets/custom_product_card.dart';
 import 'log_in_screen.dart';
@@ -157,17 +156,91 @@ class _HomeScreenState extends State<HomeScreen> {
                 SizedBox(height: 15),
                 SizedBox(
                   height: 240,
-                  child: Consumer<ProductControllerr>(builder: (context,controller,child){
-                    return controller.allProducts.isEmpty?Center(child:CircularProgressIndicator()):ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: controller.allProducts.length,
-                      itemBuilder: (context, index) {
-                        final product = controller.allProducts[index];
-                        return ProductCard(product: product,);
-                      },
-                    );
-                  })
+                  child: Consumer<ProductControllerr>(
+                    builder: (context, controller, child) {
+                      return controller.allProducts.isEmpty
+                          ? Center(child: CircularProgressIndicator())
+                          : ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: controller.allProducts.length,
+                              itemBuilder: (context, index) {
+                                final product = controller.allProducts[index];
+                                return ProductCard(product: product);
+                              },
+                            );
+                    },
+                  ),
                 ),
+                SizedBox(height: 15),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Best Selling',
+                        style: TextStyle(
+                          fontSize: getResponsiveFontSize(context, 20),
+                          color: Colors.black,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      Text(
+                        'See all',
+                        style: TextStyle(
+                          fontSize: getResponsiveFontSize(context, 15),
+                          color: const Color(0xFF53B175),
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 15,),
+                SizedBox(
+                  height: 240,
+                  child: Consumer<ProductControllerr>(
+                    builder: (context, controller, child) {
+                      return controller.allProducts.isEmpty
+                          ? Center(child: CircularProgressIndicator())
+                          : ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: controller.allProducts.length,
+                              itemBuilder: (context, index) {
+                                final product = controller.allProducts[index];
+                                return ProductCard(product: product);
+                              },
+                            );
+                    },
+                  ),
+                ),
+                
+                SizedBox(height: 15),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Groceries',
+                        style: TextStyle(
+                          fontSize: getResponsiveFontSize(context, 20),
+                          color: Colors.black,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      Text(
+                        'See all',
+                        style: TextStyle(
+                          fontSize: getResponsiveFontSize(context, 15),
+                          color: const Color(0xFF53B175),
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 15,),
               ],
             ),
           ),

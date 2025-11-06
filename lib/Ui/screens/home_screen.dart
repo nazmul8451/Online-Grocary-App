@@ -74,6 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
     }
 
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Center(
           child: SafeArea(
@@ -263,19 +264,39 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: Row(
                           children: [
                             Container(
-                              margin: EdgeInsets.only(left: 10),
+                              margin: EdgeInsets.only(left: 15),
                               height: 80,
                               width: 80,
                               child: Image.asset(item['image']),
                             ),
                             SizedBox(width: 10,),
-                            Text(item['name']),
+                            Text(item['name'],style: TextStyle(fontSize: 18,fontWeight: FontWeight.w600),),
                           ],
                         ),
                       );
                     },
                   ),
                 ),
+                SizedBox(height: 15,),
+                SizedBox(
+                  height: 240,
+                  child: Consumer<ProductControllerr>(
+                    builder: (context, controller, child) {
+                      return controller.allProducts.isEmpty
+                          ? Center(child: CircularProgressIndicator())
+                          : ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: controller.allProducts.length,
+                        itemBuilder: (context, index) {
+                          final product = controller.allProducts[index];
+                          return ProductCard(product: product);
+                        },
+                      );
+                    },
+                  ),
+                ),
+
+                SizedBox(height: 15),
               ],
             ),
           ),

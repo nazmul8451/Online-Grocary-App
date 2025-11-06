@@ -9,6 +9,7 @@ import 'package:online_grocery_app/Ui/screens/home_screen.dart';
 import 'package:online_grocery_app/businessLogic/controller/product_controller.dart';
 import 'package:provider/provider.dart';
 import 'Ui/controller/auth_controller.dart';
+import 'Ui/screens/single_product_screen.dart';
 import 'app.dart';
 import 'firebase_options.dart';
 
@@ -28,7 +29,7 @@ Future<void> main() async {
         builder: (context) => MaterialApp(
           useInheritedMediaQuery: true,
           debugShowCheckedModeBanner: false,
-          home: GroceryApp(),
+          home: SingleProductScreen(),
         ),
       ),
     )

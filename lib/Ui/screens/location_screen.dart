@@ -109,6 +109,7 @@ class _LocationScreenState extends State<LocationScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: BackButton(),
         title: const Text("Select Location"),
         backgroundColor: const Color(0xFF53B175),
         foregroundColor: Colors.white,

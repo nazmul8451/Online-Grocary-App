@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:online_grocery_app/Ui/screens/find_products_screen.dart';
 import 'package:online_grocery_app/Ui/screens/home_screen.dart';
 import 'package:online_grocery_app/Ui/screens/profile_account_screen.dart';
 class BotomNavBar extends StatefulWidget {
@@ -14,9 +15,9 @@ class _BotomNavBarState extends State<BotomNavBar> {
   int _currentIndex = 0;
   final List<Widget> _pages = [
     HomeScreen(),
-    Center(child: Text('Search Page')),
-    Center(child: Text('Profile Page')),
-    Center(child: Text('Explore')),
+    FindProductScreen(),
+    FindProductScreen(),
+    FindProductScreen(),
     ProfileAccountScreen(),
   ];
 
@@ -44,7 +45,6 @@ class _BotomNavBarState extends State<BotomNavBar> {
           topLeft: Radius.circular(15),
             topRight: Radius.circular(20),),
           child: BottomNavigationBar(
-            backgroundColor: Colors.white,
             type: BottomNavigationBarType.fixed,
               currentIndex:_currentIndex ,
             selectedItemColor: Colors.green,

@@ -266,9 +266,7 @@ class _LogInScreenState extends State<LogInScreen> {
 
   }
 
-  // void _onTapLogin(){
-  //   Navigator.push(context,MaterialPageRoute(builder: (context)=> BotomNavBar()));
-  // }
+
   void _onTapSignUpButton() {
     Navigator.push(
       context,

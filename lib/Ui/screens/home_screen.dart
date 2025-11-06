@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:online_grocery_app/Ui/widgets/custom_carousel_slider.dart';
 import 'package:online_grocery_app/businessLogic/controller/product_controller.dart';
+import 'package:online_grocery_app/data/grocary_data.dart';
 import 'package:provider/provider.dart';
 import '../controller/auth_controller.dart';
 import '../widgets/custom_product_card.dart';
@@ -15,6 +16,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
+
   Future<void> _logOutUser(BuildContext context) async {
     await AuthController.clearData();
     Navigator.pushAndRemoveUntil(
@@ -39,6 +42,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    GrocaryData grocaryData  = GrocaryData();
+
     double getResponsiveFontSize(BuildContext context, double baseSize) {
       final width = MediaQuery.of(context).size.width;
 
@@ -69,7 +74,6 @@ class _HomeScreenState extends State<HomeScreen> {
     }
 
     return Scaffold(
-      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Center(
           child: SafeArea(
@@ -196,7 +200,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ],
                   ),
                 ),
-                SizedBox(height: 15,),
+                SizedBox(height: 15),
                 SizedBox(
                   height: 240,
                   child: Consumer<ProductControllerr>(
@@ -214,7 +218,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     },
                   ),
                 ),
-                
+
                 SizedBox(height: 15),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -240,7 +244,38 @@ class _HomeScreenState extends State<HomeScreen> {
                     ],
                   ),
                 ),
-                SizedBox(height: 15,),
+                SizedBox(height: 15),
+                SizedBox(
+                  height: 100,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: GrocaryData.groceries.length,
+                    itemBuilder: (context, index) {
+                      final item = GrocaryData.groceries[index];
+                      return Container(
+                        height: 90,
+                        width: 250,
+                        margin: const EdgeInsets.only(left: 15),
+                        decoration: BoxDecoration(
+                          color: item['color'],
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Row(
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(left: 10),
+                              height: 80,
+                              width: 80,
+                              child: Image.asset(item['image']),
+                            ),
+                            SizedBox(width: 10,),
+                            Text(item['name']),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                ),
               ],
             ),
           ),

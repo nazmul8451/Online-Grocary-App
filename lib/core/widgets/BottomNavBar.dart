@@ -26,14 +26,14 @@ class _BotomNavBarState extends State<BotomNavBar> {
       body: _pages[_currentIndex],
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
-        color: Colors.white, // BottomNavBar-এর ব্যাকগ্রাউন্ড রঙ
+        color: Colors.white, 
         borderRadius: const BorderRadius.only(
         topLeft: Radius.circular(20),
     topRight: Radius.circular(20),
     ),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.1), // হালকা ছায়া
+              color: Colors.black.withOpacity(0.1), 
               blurRadius: 10,
               offset: const Offset(0, -3),
             ),

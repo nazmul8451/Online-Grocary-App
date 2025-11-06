@@ -7,4 +7,5 @@ class Urls{
 
   static const String notificationUrl = "$baseUrl/api/notifications";
   static const String allproductsUrl = "https://api.zhndev.site/wp-json/base/api/products";
+  static  String getSingleproductsUrl(int id) => "${baseUrl}base/api/products/$id";
   }

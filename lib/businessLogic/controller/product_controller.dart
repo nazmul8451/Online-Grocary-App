@@ -9,6 +9,8 @@ class ProductControllerr extends ChangeNotifier{
   
   List<Products> allProducts = [];
   List<Products> featuredProducts = [];
+
+  Products ? singleProduct;
   
       
       //calling for products
@@ -29,5 +31,22 @@ Future<void> getProducts()async{
       print(e.toString());
     }
 }
+
+
+  // Single product
+  Future<void> getSingleProduct(int id) async {
+    try {
+      final response = await NetworkCaller.getAllProducts(url: Urls.getSingleproductsUrl(id));
+      if(response.isSuccess){
+        final jsonProduct = response.body!["data"]; // Single product
+        singleProduct = Products.fromJson(jsonProduct);
+        notifyListeners();
+      } else {
+        throw Exception('Something went wrong!');
+      }
+    } catch(e) {
+      print(e.toString());
+    }
+  }
 
 }

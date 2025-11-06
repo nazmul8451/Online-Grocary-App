@@ -29,7 +29,7 @@ Future<void> main() async {
         builder: (context) => MaterialApp(
           useInheritedMediaQuery: true,
           debugShowCheckedModeBanner: false,
-          home: SingleProductScreen(),
+          home: GroceryApp(),
         ),
       ),
     )

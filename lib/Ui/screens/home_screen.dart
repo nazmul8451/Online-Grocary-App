@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:online_grocery_app/Ui/screens/search_item_screen.dart';
 import 'package:online_grocery_app/Ui/widgets/custom_carousel_slider.dart';
 import 'package:online_grocery_app/businessLogic/controller/product_controller.dart';
 import 'package:online_grocery_app/data/grocary_data.dart';
@@ -107,7 +108,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   width: contentWidth,
                   padding: const EdgeInsets.symmetric(horizontal: 15),
                   child: GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const SearchItemScreen()),
+                      );
+                    },
                     child: Container(
                       height: 55,
                       decoration: BoxDecoration(
@@ -170,7 +176,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               itemCount: controller.allProducts.length,
                               itemBuilder: (context, index) {
                                 final product = controller.allProducts[index];
-                                return ProductCard(product: product);
+                                return ProductCard(product: product,margin: EdgeInsets.only(left: 15),);
                               },
                             );
                     },

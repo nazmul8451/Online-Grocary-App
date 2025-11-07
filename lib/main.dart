@@ -4,13 +4,13 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:online_grocery_app/Ui/screens/search_item_screen.dart';
+import 'package:online_grocery_app/app.dart';
 import 'package:online_grocery_app/businessLogic/controller/product_controller.dart';
+import 'package:online_grocery_app/data/grocary_data.dart';
 import 'package:provider/provider.dart';
 import 'Ui/controller/auth_controller.dart';
-import 'app.dart';
 import 'firebase_options.dart';
-
-
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

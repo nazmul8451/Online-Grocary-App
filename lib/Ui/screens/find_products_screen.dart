@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:online_grocery_app/Ui/screens/search_item_screen.dart';
 import 'package:online_grocery_app/data/grocary_data.dart';
 
 class FindProductScreen extends StatefulWidget {
@@ -58,6 +59,7 @@ class _FindProductScreenState extends State<FindProductScreen> {
       ),
       body: Column(
         children: [
+          SizedBox(height: 10,),
           Container(
             width: contentWidth,
             padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -69,17 +71,25 @@ class _FindProductScreenState extends State<FindProductScreen> {
                   borderRadius: BorderRadius.circular(15),
                   color: const Color(0xFFF3F4F9),
                 ),
-                child: const Padding(
-                  padding: EdgeInsets.all(12),
-                  child: Row(
-                    children: [
-                      Icon(Icons.search, color: Colors.black),
-                      SizedBox(width: 10),
-                      Text(
-                        'Search Store',
-                        style: TextStyle(color: Color(0xFF7C7C7C)),
-                      ),
-                    ],
+                child: TextField(
+                  readOnly: true, // important
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => const SearchItemScreen()),
+                    );
+                  },
+                  textAlignVertical: TextAlignVertical.center,
+                  cursorColor: Colors.grey,
+                  decoration: InputDecoration(
+                    hintText: 'Search Store',
+                    border: InputBorder.none,
+                    enabledBorder: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                    errorBorder: InputBorder.none,
+                    disabledBorder: InputBorder.none,
+                    prefixIcon: Icon(Icons.search),
+                    contentPadding: EdgeInsets.zero
                   ),
                 ),
               ),

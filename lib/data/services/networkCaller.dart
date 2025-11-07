@@ -65,7 +65,7 @@ class NetworkCaller {
     }
   }
 
- static Future<NetworkResponse> getAllProducts({required String url}) async {
+ static Future<NetworkResponse> GetRequest({required String url}) async {
     try {
       Uri uri = Uri.parse(url);
       _logRequest(url, null, null);

@@ -42,22 +42,44 @@ class _SearchItemScreenState extends State<SearchItemScreen> {
         builder: (context, controller, child) {
 
           final results = _controller.text.isEmpty ? controller.allProducts: controller.searchProductList;
-          if (_controller.text.isNotEmpty && results.isEmpty) {
+          if (controller.isLoading) {
             return const Center(child: CircularProgressIndicator());
           }
-          return GridView.builder(
-            itemCount: controller.allProducts.length,
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              crossAxisSpacing: 10,
-              mainAxisSpacing: 10,
-              childAspectRatio: 0.8,
-            ),
-            itemBuilder: (context,index){
-              final product = results[index];
-              return ProductCard(product: product,);
+          if (results.isEmpty) {
+            return const Center(child: Text("No products found"));
+          }
+
+          return  LayoutBuilder(
+            builder: (context, constraints) {
+              double width = constraints.maxWidth;
+
+              // 📱 mobile, tablet, desktop responsive grid setup
+              int crossAxisCount;
+              if (width < 600) {
+                crossAxisCount = 2; // phones
+              } else if (width < 900) {
+                crossAxisCount = 3; // small tablets
+              } else {
+                crossAxisCount = 5; // large tablets / desktop
+              }
+
+              return GridView.builder(
+                padding: const EdgeInsets.all(12),
+                itemCount: results.length,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: crossAxisCount,
+                  crossAxisSpacing: 10,
+                  mainAxisSpacing: 10,
+                  childAspectRatio: 0.75,
+                ),
+                itemBuilder: (context, index) {
+                  final product = results[index];
+                  return ProductCard(product: product);
+                },
+              );
             },
           );
+
         },
       ),
     );

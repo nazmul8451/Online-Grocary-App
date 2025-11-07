@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:online_grocery_app/Ui/screens/cart_screen.dart';
 import 'package:online_grocery_app/Ui/screens/find_products_screen.dart';
 import 'package:online_grocery_app/Ui/screens/home_screen.dart';
 import 'package:online_grocery_app/Ui/screens/profile_account_screen.dart';
+
+import '../../Ui/screens/favorite_screen.dart';
 class BotomNavBar extends StatefulWidget {
   const BotomNavBar({super.key});
 
@@ -16,8 +19,8 @@ class _BotomNavBarState extends State<BotomNavBar> {
   final List<Widget> _pages = [
     HomeScreen(),
     FindProductScreen(),
-    FindProductScreen(),
-    FindProductScreen(),
+    CartScreen(),
+    FavoriteScreen(),
     ProfileAccountScreen(),
   ];
 

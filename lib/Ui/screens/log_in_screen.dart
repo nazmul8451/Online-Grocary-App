@@ -220,7 +220,8 @@ class _LogInScreenState extends State<LogInScreen> {
       ),
     );
   }
-  void _onTapForgot(){
+  void _onTapForgot()
+  {
     Navigator.push(context,MaterialPageRoute(builder: (context)=> ForgotPasswordScreen()));
   }
 

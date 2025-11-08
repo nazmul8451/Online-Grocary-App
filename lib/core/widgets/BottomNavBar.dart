@@ -15,6 +15,7 @@ class BotomNavBar extends StatefulWidget {
 
 class _BotomNavBarState extends State<BotomNavBar> {
 
+
   int _currentIndex = 0;
   final List<Widget> _pages = [
     HomeScreen(),

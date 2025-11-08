@@ -57,10 +57,7 @@ bool isLoading = false;
       );
 
       if (response.isSuccess) {
-        // ✅ Important: extract correct key from JSON
         final productListJson = response.body!['data']['products'] as List;
-
-        // ✅ Parse into model list
         searchProductList = productListJson
             .map((e) => Products.fromJson(e))
             .toList();
